@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load rest_framework %}
+
+
+
+
+{% block content %}
+
+<h1>signup</h1>
+<form id="registerForm" novalidate>
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" id="first_name" placeholder="First Name">
+    </div>
+    <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+        <label for="InputPassword1">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="InputPassword1">Password</label>
+        <input type="password" class="form-control" id="password2" placeholder="Password">
+        <small class="form-text text-muted">Confirm your Password</small>
+    </div>
+    <button id ="register_btn" type=submit> Save</button>        
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'main.js' %}"></script>
+{% endblock %}
+
