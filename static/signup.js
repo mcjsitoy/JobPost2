@@ -16,6 +16,8 @@ var base_url = window.location.origin;
       },      
       success: function(data){
         console.log(data)
+        window.location.href=base_url + '/home/';
+
       },
       error: function(e){
           console.log(e);

@@ -1,4 +1,4 @@
-from Users.api import SignupViewset, LoginViewset
+from Users.api import LogoutViewset, SignupViewset, LoginViewset
 from Users.views import LoginView, SignupView
 from django.urls import path
 from django.urls import include, path
@@ -13,6 +13,7 @@ urlpatterns = [
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/signup/',SignupView.as_view(), name='signup'),
     path('signup/',SignupViewset.as_view({'get': 'signup'})),
+    path('logout/',LogoutViewset.as_view({'get':'logout'}), name='logout'),
     # path('api-token-auth/', CustomAuthToken.as_view(), name='login'),
     
 ]

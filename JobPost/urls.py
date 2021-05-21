@@ -28,6 +28,8 @@ urlpatterns = [
     path('home/', HomeView.as_view(),name='home'),
     path('landpage/', LandPageView.as_view(),name='landpage'),  
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('jobs/',include(('Jobs.urls'), namespace='Jobs')),
+    
     
     
 ]

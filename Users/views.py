@@ -33,10 +33,7 @@ class LoginView(TemplateView):
         return render(request,'users/login.html')
 
 
-class Logout(TemplateView):
-     def get(self, request):
-         return render(request,'users/logout.html')
-        
+
 
 
 

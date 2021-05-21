@@ -1,8 +1,29 @@
 {% extends 'base.html' %}
+{%load static %}
+
 {% block content %}
-<h1>DASHBOARD</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <form class ="d-flex" method="GET">
+                {% csrf_token %}
+                <input class="form-control me-2" type ="search" aria-label="Search" name="sj" value ="{{request.GET.get.sj}}" placeholder="Enter A job title">            
+        </div>
+         <div class="col-sm">
+            <button id="search_btn" class="btn btn-outline-success">Search</button>
+        </div>        
+            </form>        
+            
+    
+    </div>  
+<div class="container">      
+    <div class= "row" id="div_body">
+                
+    </div>         
+</div>
 
-<a href ="{% url 'Users:signup' %}">SIGNUP</a>
-<a href ="{% url 'Users:login' %}">LOGIN</a>
+{% endblock %}
 
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'dashboard.js' %}"></script>
 {% endblock %}

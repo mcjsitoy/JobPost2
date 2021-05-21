@@ -1,13 +1,9 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load rest_framework %}
-
-
-
-
+{%extends 'base.html' %}
+{%load static %}
 {% block content %}
-
-<h1>signup</h1>
+<div class="text-center">
+<h1>APPLY</h1>
+</div>
 <form id="registerForm" novalidate>
     {% csrf_token %}
     <div class="form-group">
@@ -22,20 +18,19 @@
         <label for="last_name">Last Name</label>
         <input type="text" class="form-control" id="last_name" placeholder="Last Name">
     </div>
+
     <div class="form-group">
-        <label for="InputPassword1">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
+    <label for="resume">Select a file:</label>
+    <input type="file" id="resume" name="myfile">
     </div>
-    <div class="form-group">
-        <label for="InputPassword1">Password</label>
-        <input type="password" class="form-control" id="password2" placeholder="Password">
-        <small class="form-text text-muted">Confirm your Password</small>
+    <div>
+        <button  id="submit_apply"type=submit>Apply</button>
     </div>
-    <button id ="register_btn" type=submit> Save</button>        
+
 </form>
+
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{% static 'signup.js' %}"></script>
+<script type="text/javascript" src="{% static 'apply_job.js' %}"></script>
 {% endblock %}
-

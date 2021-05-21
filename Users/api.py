@@ -8,7 +8,7 @@ from .models import CustomUser
 from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework.decorators import permission_classes
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 
 
 
@@ -24,11 +24,12 @@ class SignupViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer=EmployeeRegistrationSerializer(data=request.data)
-       
+        serializer=EmployeeRegistrationSerializer()
+        
         if not serializer.is_valid():
             return Response({'serializer': serializer,})
         serializer.save()
+      
         return Response(serializer.data)
         
         
@@ -36,8 +37,9 @@ class SignupViewset(viewsets.ViewSet):
 class LoginViewset(viewsets.ViewSet):
     template_name='users/login.html'
     permission_classes=[AllowAny]
-    serializer=UserLoginSerializer()
+    
     def login(self, request):
+       serializer=UserLoginSerializer()
        data = request.data
        
        email=data.get('email', None)
@@ -48,8 +50,13 @@ class LoginViewset(viewsets.ViewSet):
        if user:
            login(request, user)
            return Response({'email':email,'token':token}, status=200)
-       return Response(status=404)
-    
+       return Response({'serializer':serializer})
+
+class LogoutViewset(viewsets.ViewSet):
+    permission_classes=[IsAuthenticated]
+    def logout(self,request):
+         logout(request)
+         return Response({'success':'Logged out'},status=200)
     # def post(self, request):
     #     import pdb;pdb.set_trace()
     #     serializer=UserLoginSerializer(data=request.data)
