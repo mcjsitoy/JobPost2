@@ -5,8 +5,8 @@
 <h1>Edit Job</h1>
 <form id="jobForm" novalidate>
     {% csrf_token %}
-    <input type="text" id="userjID"  value="{{jobs.job_poster.id}}">
-    <input type="text" id="userID"  value="{{jobs.id}}">
+    <input type="hidden" id="userjID"  value="{{jobs.job_poster.id}}">
+    <input type="hidden" id="userID"  value="{{jobs.id}}">
     <div class="form-group">
         <label for="job_title">Job_title</label>
         <input type="text" class="form-control" id="job_title" placeholder="Enter Job Title" value="{{jobs.job_title}}">
@@ -38,4 +38,5 @@
 
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'editjob.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard.js' %}"></script>
 {% endblock %}

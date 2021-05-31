@@ -8,7 +8,6 @@ from Users.models import CustomUser
 from django.shortcuts import render, redirect
 from rest_framework import serializers, viewsets
 from rest_framework import permissions
-from .serializers import EmployeeRegistrationSerializer, UserLoginSerializer
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions
 from rest_framework.authtoken.models import Token
@@ -31,6 +30,22 @@ class SignupView(TemplateView):
 class LoginView(TemplateView):
     def get(self,request): 
         return render(request,'users/login.html')
+
+
+class EditProfileView(TemplateView):
+    def get(self,request,*args, **kwargs):
+        pk=self.kwargs.get('pk')
+        user=get_object_or_404(CustomUser, pk=pk)
+        return render(request, 'users/edit_profile.html', {'user':user})
+
+
+class ProfileDetailsView(TemplateView):
+    def get(self,request,*args,**kwargs):
+        pk=self.kwargs.get('pk')
+        user=get_object_or_404(CustomUser, pk=pk)
+        return render(request,'users/profile_details.html', {'user':user})
+
+
 
 
 

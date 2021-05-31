@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{%load rest_framework %}
+{% block content %}
+<input type="hidden" id="user_id"  value="{{user.pk}}">
+
+
+
+
+<div class="text-center">
+<h1>Jobs you applied to</h1>
+</div>
+<div class="container">  
+    {% csrf_token %} 
+    <table class= "table">      
+        <thead>
+            <tr>                  
+            <th scope='col'>Job</th>
+            <th scope='col'>Email</th>
+            </tr>
+        </thead>
+        <tbody id="body_table">
+
+        </tbody>
+                
+    </table>         
+</div>
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'view_applications.js' %}"></script>
+{% endblock %}

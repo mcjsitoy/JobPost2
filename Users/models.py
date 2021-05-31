@@ -15,13 +15,15 @@ from rest_framework.authtoken.models import Token
 
 
 
+
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     first_name=models.CharField(max_length=50)
     last_name=models.CharField(max_length=50)
-    is_employer = models.BooleanField('Account Type', default=False)
-    is_employee = models.BooleanField('Account Type', default=False)
+    is_employer = models.BooleanField('Employer', default=False)
+    is_employee = models.BooleanField('Employee', default=False)
+    is_employed = models.BooleanField('Employed', default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -38,6 +40,13 @@ class CustomUser(AbstractUser):
 def create_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+
+    
+
+    
+
 
       
         

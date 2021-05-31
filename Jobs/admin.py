@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Jobs
+from .models import Jobs,JobApplication
 
 # Register your models here.
 
@@ -17,10 +17,29 @@ class JobAdmin(admin.ModelAdmin):
         (None, {
             'classes': ('wide',),
             
-            'fields': ('job_title', 'job_description','job_psoter','location','category', 'salary_range')}
+            'fields': ('job_title', 'job_description','job_poster','location','category', 'salary_range')}
         ),
     )
 
 
+class JobApplicationAdmin(admin.ModelAdmin):
+    model = Jobs
+    list_display = ('email', 'first_name', 'last_name','resume','date_applied','applicant','Job','cover_letter','is_accepted','is_declined','ee_is_accepted','ee_is_declined')
+ 
+    
+    
+    fieldsets = (
+       
+        (None, {'fields': ('email', 'first_name','last_name','resume','applicant','Job','cover_letter','is_accepted','is_declined','ee_is_accepted','ee_is_declined')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            
+            'fields': ('email', 'first_name','last_name','resume','date_applied', 'applicant','Job','cover_letter','is_accepted','is_declined','ee_is_accepted','ee_is_declined')}
+        ),
+    )
+
     
 admin.site.register(Jobs, JobAdmin)
+admin.site.register(JobApplication, JobApplicationAdmin)

@@ -4,8 +4,10 @@
 <div class="text-center">
 <h1>APPLY</h1>
 </div>
-<form id="registerForm" novalidate>
+<form id="applyForm" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
+    <input type="hidden" id="applicant_id"  value="{{applicant_id}}">
+    <input type="hidden" id="job_id"  value="{{jobs.id}}">
     <div class="form-group">
         <label for="email">Email address</label>
         <input type="email" class="form-control" id="email" placeholder="Enter email">
@@ -20,9 +22,14 @@
     </div>
 
     <div class="form-group">
-    <label for="resume">Select a file:</label>
-    <input type="file" id="resume" name="myfile">
+        <label for="cover_letter">Cover Letter</label>
+        <textarea  class="form-control" id="cover_letter" placeholder="Cover Letter"></textarea>
     </div>
+    <div class="form-group">
+        <label for="resume">Resume</label>
+        <input type="file"  id="resume">
+    </div>
+
     <div>
         <button  id="submit_apply"type=submit>Apply</button>
     </div>

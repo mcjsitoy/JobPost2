@@ -1,25 +1,42 @@
 {% extends 'base.html' %}
 {%load static %}
-
 {% block content %}
+<input type ="hidden" id="user" value="{{user.pk}}">
+<br>
 <div class="container">
     <div class="row">
-        <div class="col-sm">
-            <form class ="d-flex" method="GET">
+        <div class="col-sm-2">           
                 {% csrf_token %}
-                <input class="form-control me-2" type ="search" aria-label="Search" name="sj" value ="{{request.GET.get.sj}}" placeholder="Enter A job title">            
+                <input id="sj" class="form-control me-2" type ="search" aria-label="Search" name="sj" value ="{{request.GET.get.sj}}" placeholder="Enter A job title">
         </div>
-         <div class="col-sm">
+        <div class="col-sm">
+                <input id="jl" class="form-control me-2" type ="search" aria-label="Search" name="jl" value ="{{request.GET.get.jl}}" placeholder="Enter Location">             
+        </div>
+        <div class="col-sm">
+            <select id="cat" class="form-control me-2"  name="cat" >
+                <option value=""selected>All</option>
+                <option value="Computer">Computer</option>
+                <option value="Finance">Finance </option>
+                <option value="Entertainment">Entertainment</option>  
+            </select>             
+        </div>
+        <div class="col-sm">
+            <select class="form-control" id="sal_range" placeholder="Salary Range" name="sal_range">
+                <option value=""selected>Any</option>
+                <option value="10000">10000</option>
+                <option value="12000">12000</option>           
+                <option value="50000">50000 </option>
+                <option value="100000">10000</option>           
+            </select>
+        </div>
+         <div class="col-sm-2">
             <button id="search_btn" class="btn btn-outline-success">Search</button>
-        </div>        
-            </form>        
-            
-    
+        </div>            
     </div>  
-<div class="container">      
-    <div class= "row" id="div_body">
-                
-    </div>         
+    <div class="container">      
+        <div class= "row" id="div_body">                
+        </div>         
+    </div>
 </div>
 
 {% endblock %}

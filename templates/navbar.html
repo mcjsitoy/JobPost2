@@ -1,31 +1,64 @@
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-        <div class ="navbar-header">
+        {%if user.is_authenticated %}
+        <div class ="navbar-header ">
             <a class="navbar-brand" href="{% url 'home' %}">
                 Find Jobs
             </a>
-            <a class="navbar-brand" href="{%url 'Users:signup' %}">
-                Signup
+          
+            </a>
+            {%if user.is_employee is False %}
+            <a id="view_posted_jobs_btn" class="navbar-brand" href="{%url 'Jobs:posted_jobs' user.pk %} ">
+                View Posted Jobs
             </a>
             <a class="navbar-brand" href="{%url 'Jobs:job_post' %}">
                 Post a Job
             </a>
-            <a id="view_jobs_btn" class="navbar-brand" href="#">
-                View All Jobs
+            {%elif user.is_employer is False %}
+            <a id="view_jobs_applied_btn" class="navbar-brand" href="{% url 'Jobs:view_applications' user.pk%}">
+                View Jobs Applied to
+            </a>
+            {%else%}
+            <a class="navbar-brand" href="{%url 'Jobs:job_post' %}">
+                Post a Job
+            </a>
+            
+            <a id="view_posted_jobs_btn" class="navbar-brand" href="{%url 'Jobs:posted_jobs' user.pk %} ">
+                View Posted Jobs
+            </a>
+            <a id="view_jobs_applied_btn" class="navbar-brand" href="{% url 'Jobs:view_applications' user.pk%}">
+                View Jobs Applied to
             </a>
 
-           
-            {%if user.is_authenticated %}
-            <a id ="logout_button"class="navbar-brand" href="{% url 'Users:logout' %}">Logout</a>
-                
-            </a>
-            {% else %}
-            <a class="navbar-brand" href="{% url 'Users:login' %}">
-                Login
-            </a>
             {% endif %}
-    </div>
+            <a id="edit_profile_btn" class="navbar-brand" href="{% url 'Users:edit_profile' user.pk %}">Edit Profile</a>                  
+        </div>   
+        <div class="navbar-header navbar-right">              
+               <a class="navbar-brand" id ="logout_button"  href="{% url 'Users:logout' %}">Logout</a>
+               <a class="navbar-brand" href="#" id="navbarDropdownMenuLink">
+                   {% if user.is_employed is False %}
+                   <p id="job_status_title">Unemployed</p>
+                   {% else %}
+                   <p id="job_status_title">Employed</p>                
+                   {% endif %}  
+                </a>          
+        </div>
+        {% else %}                                   
+            <div class ="navbar-header">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    Find Jobs
+                </a>            
+                
+                <a class="navbar-brand" href="{% url 'Users:login' %}">
+                    Login
+                </a>    
+                <a class="navbar-brand" href="{%url 'Users:signup' %}">
+                    Signup
+                </a>
+            </div>
+        {% endif %}
+   
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="nav navbar-nav navbar-right">
 

@@ -26,6 +26,9 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_employer', True)
+        extra_fields.setdefault('is_employee', True)
+        extra_fields.setdefault('is_employed', True)
        
        
 

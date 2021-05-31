@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{%load rest_framework %}
+{% block content %}
+<input type="hidden" id="job_id" value="{{jobs.pk}}">
+
+
+
+
+<div class="text-center">
+<h1>Applicant List</h1>
+</div>
+<div class="container">  
+    {% csrf_token %} 
+    <table class= "table">
+      
+        <thead>
+            <tr>                  
+            <th scope='col'>Email</th>
+            <th scope='col'>First Name</th>
+            <th scope='col'>Last Name</th>
+            <th scope='col'>Cover Letter</th>
+            <th scope='col'>Resume</th>
+            </tr>
+        </thead>
+        <tbody id="body_table">
+
+        </tbody>
+                
+    </table>         
+</div>
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'view_applicants.js' %}"></script>
+{% endblock %}

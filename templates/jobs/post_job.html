@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load rest_framework %}
-
-
-
-
 {% block content %}
-
 <h1>Post a Job</h1>
-<form id="post_jobForm" novalidate>
+<form id="post_jobForm"  enctype="multipart/form-data" novalidate>
     {% csrf_token %}
-    <input type="hidden" id="userID"  value="">
+    <input type="hidden" id="userID">
     <div class="form-group">
         <label for="job_title">Job_title</label>
         <input type="text" class="form-control" id="job_title" placeholder="Enter Job Title">
@@ -24,19 +19,23 @@
         <input type="text" class="form-control" id="location" placeholder="Location">
     </div>
     <div class="form-group">
-        <label for="salary_range">Salary Range</label>
-        <input type="number" class="form-control" id="salary_range" placeholder="Salary Range" min="1" max="900000">
+        <label for="salary_range">Minimum Salary Offer</label>
+        <select class="form-control" id="salary_range" placeholder="Salary Range" >
+            <option value="10000">10000</option>
+            <option value="12000">12000</option>           
+            <option value="50000" selected>50000 </option>
+            <option value="100000">10000</option>           
+        </select>
     </div>
     <div class="form-group">
         <label for="category">Category</label>
         <select id="category">
-            <option value="Computer">Computer</option>
+            <option value="10">Computer</option>
             <option value="Finance" selected>Finance </option>
-            <option value="Entertainment">Entertainment</option>
-           
+            <option value="Entertainment">Entertainment</option>           
         </select>
     </div>
-    <button id ="post_job_btn" type=submit>Post</button>        
+    <button id ="post_job_btn" type=submit>Post</button>     
 </form>
 {% endblock %}
 

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{%load rest_framework %}
+{% block content %}
+<input type="hidden" id="user_id"  value="{{user.pk}}">
+    <div class="container">
+        <div class="row" id="div_posted">
+
+        </div>
+        <div id="no_post">
+            
+        </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'view_posted_jobs.js' %}"></script>
+{% endblock %}

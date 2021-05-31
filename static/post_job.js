@@ -12,13 +12,12 @@ $(document).ready(function(){
             "location": $("#location").val(),
             "salary_range": $("#salary_range").val(),
             "category":$("#category").val(),
-            "job_poster":$("#userID").val(),
             "csrfmiddlewaretoken": $('input[name="csrfmiddlewaretoken"]').val(),
             
           },      
           success: function(data){
             console.log(data)
-            window.location.href=base_url + '/home/';
+            alert('Job Posted Successfully');
     
           },
           error: function(e){
