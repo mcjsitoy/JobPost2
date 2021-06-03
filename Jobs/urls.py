@@ -1,7 +1,7 @@
 
-from Jobs.api import ApplicantsViewset, ApplicationsViewset,ErDeclineApplicationViewset, ErAcceptApplicationViewset, JobListViewSet, PostJobViewSet, SearchViewset, EditJobViewset, ApplyJobViewset, PostedJobsViewset
+from Jobs.api import ApplicantsViewset, ApplicationsViewset,ErDeclineApplicationViewset, ErAcceptApplicationViewset, JobDetailsViewset, JobListViewSet, PostJobViewSet, SearchViewset, EditJobViewset, ApplyJobViewset, PostedJobsViewset
 from Jobs.api import EeAcceptJobViewset,EeDeclineJobViewset
-from Jobs.views import ApplyJobView, EmployeeApplicationView, PostJobView, JobListView, ApplyJobView,EditJobView, PostedJobsView, ViewApplicantsView
+from Jobs.views import ApplyJobView, EmployeeApplicationView, PostJobView, JobListView, ApplyJobView,EditJobView, PostedJobsView, ViewApplicantsView,JobDetailsView,NoAccessView
 from django.urls import path
 
 
@@ -27,6 +27,10 @@ urlpatterns = [
     path('api/view_applications/<int:pk>',ApplicationsViewset.as_view({'get':'application_list'})),
     path('api/employee_accept/<int:pk>',EeAcceptJobViewset.as_view({'post':'accept'})),
     path('api/employee_decline/<int:pk>',EeDeclineJobViewset.as_view({'post':'decline'})),
+    path('api/job_details/<int:pk>',JobDetailsViewset.as_view({'get':'job_details'})),
+    path('job_details/<int:pk>', JobDetailsView.as_view(),name='job_details'),
+    path('no_access',NoAccessView.as_view(),name='no_access'),
+   
 
     # path('api-token-auth/', CustomAuthToken.as_view(), name='login'),   
 ]

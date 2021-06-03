@@ -75,13 +75,6 @@ class EditProfileViewset(viewsets.ViewSet):
         return Response({'error':'Serializer not valid'}, status=404)
 
 
-# class ProfileDetailsViewset(viewsets.ViewSet):
-#     permission_classes=[IsAuthenticated]
-#     def profile_details(self,request,*args,**kwargs):
-#         pk=self.kwargs.get('pk')
-#         profile=get_object_or_404(CustomUser,pk=pk)
-#         applicant=get_object_or_404()
-        
     
 
 

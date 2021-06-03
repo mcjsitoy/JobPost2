@@ -20,7 +20,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         extra_kwargs ={
             'password': {'write_only':True}
         }
-    #Override Save
+    
     def save(self):
         user=CustomUser(email = self.validated_data['email'])
         first_name=self.validated_data['first_name']

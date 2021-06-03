@@ -2,11 +2,14 @@
 {% load static %}
 {% load rest_framework %}
 {% block content %}
+{% if user.is_employer is True %}
 <h1>Edit Job</h1>
 <form id="jobForm" novalidate>
     {% csrf_token %}
     <input type="hidden" id="userjID"  value="{{jobs.job_poster.id}}">
     <input type="hidden" id="userID"  value="{{jobs.id}}">
+    <div id="success_div"></div>
+    <div id="failed_div"></div>   
     <div class="form-group">
         <label for="job_title">Job_title</label>
         <input type="text" class="form-control" id="job_title" placeholder="Enter Job Title" value="{{jobs.job_title}}">
@@ -20,20 +23,30 @@
         <input type="text" class="form-control" id="location" placeholder="Location" value="{{jobs.location}}">
     </div>
     <div class="form-group">
-        <label for="salary_range">Salary Range</label>
-        <input type="number" class="form-control" id="salary_range" placeholder="Salary Range" min="1" max="900000" value="{{jobs.salary_range}}">
+        <label for="salary_range"> Minimum Salary Offer</label>
+        <select class="form-control" id="salary_range" placeholder="Salary Range" >
+            <option value="10000">10000</option>
+            <option value="12000">12000</option>           
+            <option value="50000" selected>50000 </option>
+            <option value="100000">100000</option>           
+        </select>
     </div>
     <div class="form-group">
         <label for="category">Category</label>
-        <select id="category">
+        <select class="form-control" id="category">
             <option value="Computer">Computer</option>
             <option value="Finance" selected>Finance </option>
             <option value="Entertainment">Entertainment</option>
            
         </select>
     </div>
-    <button id ="update_job_btn" type=submit>Update</button>        
+    <button id ="update_job_btn" class="btn btn-success" type=submit>Update</button>        
 </form>
+{% else %}
+<div class="text-center">
+    <h1>Oops! You're not allowed to see this click on Find Jobs to find a job.</h1>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}

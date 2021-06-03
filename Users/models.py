@@ -51,10 +51,6 @@ def create_token(sender, instance=None, created=False, **kwargs):
       
         
 
-# class Employee(models.Model):
-#     employee = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-#     jobpost = models.ManyToManyField(JobPost, through='JobPost')
-#     application = models.ManyToManyField(Application, related_name='Application')
 
 
 

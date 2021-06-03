@@ -7,7 +7,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = ('email', 'is_staff', 'is_active','is_employer','is_employee','is_employed')
  
-    list_filter = ('email', 'is_staff', 'is_active','is_employer','is_employee','is_employed')
+    list_filter = ('is_staff', 'is_active','is_employer','is_employee','is_employed')
     
     fieldsets = (
        

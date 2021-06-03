@@ -39,26 +39,30 @@ var base_url = window.location.origin;
       },      
       success: function(data){
         console.log(data)
-        alert('Signup Successful');
+        html_render=""; 
+        html_render +=  
+        "<div class='alert alert-success' role='alert'>"+
+        "Job Post Successful"+
+        "</div>";
+        $("#success_div").html(html_render).fadeIn('slow');
+        $("#success_div").delay(1000).fadeOut('slow');
+        window.setTimeout(function() {
+        window.location.href = base_url+ '/accounts/api/login/';
+      }, 1000);
+       
 
       },
       error: function(e){
           console.log(e);
+          html_render=""; 
+          html_render +=              
+          "<div class='alert alert-danger'>"+
+          "Job Post Failed"+
+          "</div>";
+          $("#succes_div").html("");
+          $("#failed_div").html(html_render).fadeIn('slow');
+          $("#failed_div").delay(3000).fadeOut('slow');
       }
     });
-  });
-
-//   $.ajax({
-//     type: "GET",
-//     url: base_url + '/accounts/signup/',
-//     // data: data,
-//     success: function(data){
-//       console.log(data)
-//        //do something here if success
-//     },
-//     error: function(e){
-//         console.log(e);
-//     }
-// });
-   
+  });   
   });

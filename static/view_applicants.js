@@ -8,8 +8,6 @@ $(document).ready(function(){
                 console.log(data)               
                 html_render="";
                 $.each(data, function( index, value ) {                      
-                    // var accept_application = employer_Reponse();
-                    // var applicant = employer_Reponse();
                     var accept = base_url + '/jobs/api/employer_accept/'+value['id'];
                     var decline = base_url + '/jobs/api/employer_decline/'+value['id']; 
                     var resume = base_url+ value['resume'];  
@@ -17,8 +15,6 @@ $(document).ready(function(){
                     "<tr>"+
                     "<td>"+value['email']+"</td>"+
                     "<input type='hidden' id='app_id' value=>"+
-                    // "<input type='hidden' id='accept_true' value='True'>"+
-                    // "<input type='hidden' id='accept_false' value='False'>"+
                     "<td>"+value['first_name']+"</td>"+
                     "<td>"+value['last_name']+"</td>"+
                     "<td>"+value['cover_letter']+"</td>"+
@@ -35,13 +31,14 @@ $(document).ready(function(){
                 console.log(html_render);                       
             },
             error: function(e){
-                console.log(e);              
+                console.log(e);   
+                $("#applicant_head").text("No Applicants Yet")     
             }
             });  
         });
         function decline_employee(data){
             var base_url = window.location.origin;  
-            // var accept = base_url + '/jobs/api/employer_accept/' + value['id'];
+            
             
             $.ajax({
                 type: "POST",
@@ -50,14 +47,13 @@ $(document).ready(function(){
                     "csrfmiddlewaretoken":$('input[name="csrfmiddlewaretoken"]').val(),
                 },
                 success: function(data){
-                    console.log(data);
-                    // $("#accept").hide();
-                    alert('Successfully Declined Job');
+                    console.log(data);                 
                     window.location.reload();     
                     
                 },
                 error: function(e){
                     console.log(e)
+                    
                 },
             }); 
         }
@@ -65,7 +61,7 @@ $(document).ready(function(){
         function accept_employee(data){
             
             var base_url = window.location.origin;  
-            // var accept = base_url + '/jobs/api/employer_accept/' + value['id'];
+            
             $.ajax({
                 type: "POST",
                 url: base_url + '/jobs/api/employer_accept/'+data,
@@ -73,8 +69,7 @@ $(document).ready(function(){
                     "csrfmiddlewaretoken":$('input[name="csrfmiddlewaretoken"]').val(),
                 },
                 success: function(data){
-                    console.log(data);
-                    alert('Successfully Accepted Job');
+                    console.log(data);                  
                     window.location.reload(); 
                                     
                 },

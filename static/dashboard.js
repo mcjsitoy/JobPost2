@@ -1,6 +1,7 @@
 $(document).ready(function(){   
     var base_url = window.location.origin;
     var current_user = $("#user").val();
+    var status=$("#status").val();
     $.ajax({                         
         type: "GET",
         url: base_url + '/jobs/api/job_list',
@@ -9,18 +10,20 @@ $(document).ready(function(){
             console.log(current_user);       
             html_render="";
             $.each(data, function( index, value ) {
+                details_url = base_url +'/jobs/job_details/'+value['id'];
                 job_url = base_url + '/jobs/edit_job/'+value['id'];
                 apply_url = base_url +'/jobs/apply_job/'+value['id'];                   
                 html_render +="<div class='card-deck text-center'>"+
                 "<div class='col-md-3'>"+
-                "<div class='card mb-2 mt-4' style='width: 20rem;'>"+
-                "<div class='card-body'>"+
+                "<div class='card  mb-2 mt-4' style='width: 20rem;'>"+
+                "<img class='card-img-top'"+"src=" + value['img']+">"+
+                "<div class='card-body text-info'>"+
                 "<h4 class='card-title'>"+
                 value['job_title']+ 
                 "</h4>" + 
                 "<ul class='list-group list-group-flush'>"+
                 "<li class='list-group-item'>Description: "+    
-                value['job_description']+ 
+                "<p class='description'>"+value['job_description']+ "</p>"+
                 "</li>"+
                 "<li class='list-group-item'>Category: "+
                 value['category']+ 
@@ -33,9 +36,11 @@ $(document).ready(function(){
                 "</li>"+
                 "</ul>"+
                 "<div class='card-body'>"+
-                (value['job_poster'].id !=current_user?"<a href='" + apply_url + "'id='apply_btn' class='btn btn-success btn-block'>"+"Apply"+"</a>":"")+            
+                (value['job_poster'].id !=current_user ?"<a href='" + apply_url + "'id='apply_btn' class='btn btn-success btn-block'>"+"Apply"+"</a>":" ")+
+                "<a href='" + details_url + "'id='apply_btn' class='btn btn-success btn-block'>"+"Details"+"</a>"+     
+                (value['job_poster'].id == current_user ? "<a href='"+ job_url+"' id='edit_btn' class='btn btn-success btn-block' role='button'>"+"Edit"+"</a>"+"</div>":"<small>"+"Employer:"+"</small>"+"<button class='btn btn-info btn-block' disabled>"+value['job_poster'].first_name+"</button>")+           
                 "</div>"+                      
-                "<div class='card-body'>"+(value['job_poster'].id == current_user ? "<a href='"+ job_url+"' id='edit_btn' class='btn btn-success btn-block' role='button'>"+"Edit"+"</a>"+"</div>":"<small>"+"Employer:"+"</small>"+"<button class='btn btn-info btn-block' disabled>"+value['job_poster'].first_name+"</button>")+                    
+                                 
                 "</div>"+"</div>"+"</div>"+"</div>"+"</div>";                                     
              console.log(value)            
             });   
@@ -61,7 +66,6 @@ $(document).ready(function(){
         event.preventDefault();
         $.ajax({
         type: "POST",
-        // headers: {"Authorization": "Token"  },
         url: base_url + '/accounts/login/',
         data:{
             "email": $("#email").val(),
@@ -76,6 +80,14 @@ $(document).ready(function(){
         },
         error: function(e){
             console.log(e);
+            html_render=""; 
+              html_render +=              
+              "<div class='alert alert-danger'>"+
+              "Login Failed Please Enter Correct Credentials"+
+              "</div>";
+              $("#succes_div").html("");
+              $("#failed_div").html(html_render).fadeIn('slow');
+              $("#failed_div").delay(2000).fadeOut('slow');
           
         }
         }); 
@@ -90,7 +102,7 @@ $(document).ready(function(){
         data:{          
         },  
         success: function(data){
-            window.location.href=base_url + '/home/';
+            window.location.href= base_url + '/home/';
         },
         error: function(e){
             console.log(e);
@@ -99,68 +111,10 @@ $(document).ready(function(){
         }); 
         
     });
-
-
-    $('#view_jobs_btn').click(function(event){       
-        event.preventDefault();
-        var current_user = $("#user").val();
-        $.ajax({           
-            type: "GET",
-            url: base_url + '/jobs/api/job_list',
-            success: function(data){
-                console.log(data);
-                console.log(current_user);       
-                html_render="";
-                $.each(data, function( index, value ) {
-                    job_url = base_url + '/jobs/edit_job/'+value['id'];
-                    apply_url = base_url +'/jobs/apply_job/'+value['id'];                   
-                    html_render +="<div class='card-deck text-center'>"+
-                    "<div class='col-md-3'>"+
-                    "<div class='card mb-2 mt-4' style='width: 20rem;'>"+
-                    "<div class='card-body'>"+
-                    "<h4 class='card-title'>"+
-                     value['job_title']+ 
-                    "</h4>" + value['job_description']+ 
-                    value['category']+ value['location']+ 
-                    value['salary_range']+
-                    "<br>"+
-                    "<a href='" + apply_url + "'id='apply_btn' class='btn btn-success btn-sm'>"+
-                    "Apply"+
-                    "</a>"+
-                    " "+        
-                    (value['job_poster'] == current_user ? "<a href='"+ job_url+"' id='edit_btn' class='btn btn-success btn-sm' role='button'>"+"Edit"+"</a>"+"</div>"+"</div>"+"</div>"+"</div>" :"<button class='btn btn-info btn-block' disabled>"+value['job_poster']+"</button>")+                    
-                   "</div>"+"</div>"+"</div>"+"</div>";                                     
-                 console.log(value)            
-                });   
-                  $("#div_body").html(html_render);                  
-                  console.log(html_render);       
-                
-            },
-            error: function(e){
-                console.log(e);              
-            }
-            });         
-    });
-    
+     
     $('#edit_btn').click(function(event){
         windows.location.href= base_url + 'jobs/edit_job/jobs.pk'
       });
-
-    //   jQuery.expr[':'].contains = function(a, i, m) {
-    //     return jQuery(a).text().toUpperCase()
-    //         .indexOf(m[3].toUpperCase()) >= 0;
-    //   };
-
-    //   $('#sj').keyup(function(){
-    //     $('.card').removeClass('d-none');
-    //     var filter = $(this).val();
-    //     $('.card-deck').find('.card .card-body h4:not(:contains("'+filter+'"))').parent().parent().addClass('d-none');
-    // })
-    // $('#jl').keyup(function(){
-    //     $('.card').removeClass('d-none');
-    //     var filter = $(this).val(); 
-    //     $('.card-deck').find('.card .card-body h4:not(:contains("'+filter+'"))').parent().parent().addClass('d-none');
-    // })
 
     $('#search_btn').click(function(event){       
         event.preventDefault();
@@ -181,36 +135,37 @@ $(document).ready(function(){
                 console.log(data)
                 html_render="";
                 $.each(data, function( index, value ) {
+                    var current_user = $("#user").val();
                     job_url = base_url + '/jobs/edit_job/'+value['id'];
                     apply_url = base_url +'/jobs/apply_job/'+value['id'];
+                    details_url = base_url +'/jobs/job_details/'+value['id'];
                     html_render +="<div class='card-deck text-center'>"+
                     "<div class='col-md-3'>"+
                     "<div class='card mb-2 mt-4' style='width: 20rem;'>"+
-                    "<div class='card-body'>"+
+                    "<img class='card-img-top'"+"src=" + value['img']+">"+
+                    "<div class='card-body text-info'>"+
                     "<h4 class='card-title'>"+
                     value['job_title']+ 
                     "</h4>" + 
                     "<ul class='list-group list-group-flush'>"+
-                    "<li class='list-group-item'>"+
-                    value['job_description']+ 
+                    "<li class='list-group-item'>Description: "+
+                    "<p class='description'>"+value['job_description']+"</p>"+
                     "</li>"+
-                    "<li class='list-group-item'>"+
+                    "<li class='list-group-item'>Category: "+
                     value['category']+ 
                     "</li>"+
-                    "<li class='list-group-item'>"+
+                    "<li class='list-group-item'>Location: "+
                     value['location']+ 
                     "</li>"+
-                    "<li class='list-group-item'>"+
+                    "<li class='list-group-item'>Salary Range: "+
                     value['salary_range']+
                     "</li>"+
                     "</ul>"+
                     "<div class='card-body'>"+
-                    "<a href='" + apply_url + "'id='apply_btn' class='btn btn-success btn-block'>"+
-                    "Apply"+
-                    "</a>"+
-                    "</div>"+
-                    " "+        
-                    "<div class='card-body'>"+(value['job_poster'] == current_user ? "<a href='"+ job_url+"' id='edit_btn' class='btn btn-success btn-block' role='button'>"+"Edit"+"</a>"+"</div>":"")+                    
+                    (value['job_poster'].id !=current_user?"<a href='" + apply_url + "'id='apply_btn' class='btn btn-success btn-block'>"+"Apply"+"</a>":" ")+
+                    "<a href='" + details_url + "'id='apply_btn' class='btn btn-success btn-block'>"+"Details"+"</a>"+    
+                    (value['job_poster'].id == current_user ? "<a href='"+ job_url+"' id='edit_btn' class='btn btn-success btn-block' role='button'>"+"Edit"+"</a>"+"</div>":"")+                       
+                    "</div>"+                                
                     "</div>"+"</div>"+"</div>"+"</div>"+"</div>";              
                     console.log(value);
                    
@@ -219,8 +174,13 @@ $(document).ready(function(){
                   console.log(html_render);                       
             },
             error: function(e){
-                console.log(e); 
-                alert('No Jobs with those specifications');
+              html_render=""; 
+              html_render +=              
+              "<div class='alert alert-danger'>"+
+              "There are no Jobs that match your search"+
+              "</div>";
+              $("#failed_div").html(html_render).fadeIn('slow');
+              $("#failed_div").delay(3000).fadeOut('slow');
                       
             }
             });         
@@ -239,10 +199,11 @@ $(document).ready(function(){
                     html_render +="<div class='card-deck text-center'>"+
                     "<div class='col-md-3'>"+
                     "<div class='card mb-2 mt-4' style='width: 20rem;'>"+
+                    "<img class='card-img-top'"+"src=" + value['img']+">"+
                     "<div class='card-body'>"+
                     "<h4 class='card-title'>"+                  
                     value['job_title']+"</br>"+
-                    "</h4>" + value['job_description']+"</br>"+ 
+                    "</h4>" +"<p class='description'>"+value['job_description']+"</p>"+"</br>"+ 
                     value['category']+ value['location']+"</br>"+
                     value['salary_range']+"</br>"+
                     "<a href='"+ view_applicants_url+
@@ -258,41 +219,9 @@ $(document).ready(function(){
 
             });           
         });
-
-    
-
-
-
-
-//     $("#applicants_btn").click(function(event){
-//         $.ajax({ 
-//         type: "GET",
-//         url: base_url + '/jobs/view_applicants/',
-//         success: function(data){
-//             console.log(data)               
-//             html_render="";
-//             $.each(data, function( index, value ) {
-//                 view_applicants_url = base_url + '/jobs/view_applicants/'+value['id'];
-//                 html_render +="<div class='card-deck text-center'>"+
-//                 "<div class='col-md-3'>"+
-//                 "<div class='card mb-2 mt-4' style='width: 20rem;'>"+
-//                 "<div class='card-body'>"+
-//                 "<h4 class='card-title'>"+                  
-//                 value['job_title']+"</br>"+
-//                 "</h4>" + value['job_description']+"</br>"+ 
-//                 value['category']+ value['location']+"</br>"+
-//                 value['salary_range']+"</br>"+
-//                 "<a href='"+ view_applicants_url+
-//                 "' id='applicants_btn' class='btn btn-success btn-sm' role='button'>"+"View Applicants"+"</a>"+ "</div>"+"</div>"+"</div>"+"</div>";                                                      
-//              console.log(value)            
-//             });   
-//               $("#div_body").html(html_render);                  
-//               console.log(html_render);                 
-//         },
-//         error: function(e){
-//             console.log(e);              
-//         }
-                    
-//     });      
-// });
 });
+
+
+
+   
+

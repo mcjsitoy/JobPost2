@@ -5,19 +5,17 @@ from .models import Jobs,JobApplication
 
 class JobAdmin(admin.ModelAdmin):
     model = Jobs
-    list_display = ('job_title', 'job_description', 'job_poster','date_posted','location','salary_range')
- 
-    
+    list_display = ('job_title', 'job_description', 'job_poster','date_posted','location','salary_range','img')
     
     fieldsets = (
        
-        (None, {'fields': ('job_title', 'job_description','job_poster','location','category','salary_range')}),
+        (None, {'fields': ('job_title', 'job_description','job_poster','location','salary_range','img','category')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
             
-            'fields': ('job_title', 'job_description','job_poster','location','category', 'salary_range')}
+            'fields': ('job_title', 'job_description','job_poster','location','category', 'salary_range','img','category')}
         ),
     )
 

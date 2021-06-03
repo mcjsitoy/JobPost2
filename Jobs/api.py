@@ -10,23 +10,25 @@ from .serializers import EmployeeApplicationsSerializer, JobPostSerializer, JobL
 from Jobs.models import JobApplication, Jobs
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie, requires_csrf_token
-
+from datetime import datetime 
 
 
 class PostJobViewSet(viewsets.ViewSet):      
-    permission_classes= [IsAuthenticated]    
+    permission_classes= [IsAuthenticated] 
+    parser_classes = [MultiPartParser]    
     def post_job(self, request):         
-        serializer=JobPostSerializer(data=request.data)               
+        serializer=JobPostSerializer(data=request.data)  
+        # import pdb; pdb.set_trace()           
         if serializer.is_valid():         
             serializer.save(job_poster=request.user)         
             return Response(serializer.data, status=200)
-        return Response(serializer.errors)
+        return Response(serializer.errors, status=404)
 
 
 class JobListViewSet(viewsets.ViewSet):
     permission_classes=[AllowAny]
     def job_list(self, request):
-        jobs=Jobs.objects.all()
+        jobs=Jobs.objects.all().order_by('-date_posted')
         if(jobs):        
             serializer=JobListSerializer(jobs, many=True)
             return Response(serializer.data, status=200)
@@ -41,10 +43,11 @@ class SearchViewset(viewsets.ViewSet):
         job_locationSearch= request.GET.get('jl') 
         job_categorySearch= request.GET.get('cat')
         job_salRange=request.GET.get('sal_range') 
-        search = Jobs.objects.filter(job_title__icontains=job_titleSearch, location__icontains=job_locationSearch,category__icontains=job_categorySearch,salary_range__icontains=job_salRange)       
+        search = Jobs.objects.filter(job_title__icontains=job_titleSearch, location__icontains=job_locationSearch,category__icontains=job_categorySearch,salary_range__icontains=job_salRange).order_by('-date_posted') 
         if(search):
             #serialize value of search
             serializer=JobSearchSerializer(search, many=True)
+            
             return Response(serializer.data, status=200)
         return Response({'error':'No Jobs Posted'},status=404)
 
@@ -63,17 +66,14 @@ class EditJobViewset(viewsets.ViewSet):
 
 class ApplyJobViewset(viewsets.ViewSet):
     permission_classes=[IsAuthenticated]
-    # parser_classes = [FormParser]
     parser_classes = [MultiPartParser] 
-    # parser_classes=[FileUploadParser]
       
-    def apply(self,request, *args, **kwargs):
-         import pdb; pdb.set_trace();
-         serializer=ApplyJobSerializer(data=request.data)                
-         if serializer.is_valid():         
+    def apply(self,request, *args, **kwargs):    
+        serializer=ApplyJobSerializer(data=request.data)                
+        if serializer.is_valid():         
             serializer.save()         
             return Response(serializer.data, status=200)
-         return Response(serializer.errors)
+        return Response(serializer.errors,  status=404)
 
 
 class ApplicantsViewset(viewsets.ViewSet):
@@ -81,7 +81,7 @@ class ApplicantsViewset(viewsets.ViewSet):
     def applicant_list(self, request, *args, **kwargs):
         pk=self.kwargs.get('pk')
         jobs=get_object_or_404(Jobs, pk=pk)      
-        applicants=JobApplication.objects.filter(Job=jobs)
+        applicants=JobApplication.objects.filter(Job=jobs).order_by('-date_applied') 
         if(applicants):        
             serializer=ApplyJobSerializer(applicants, many=True)
             return Response(serializer.data, status=200)
@@ -91,7 +91,7 @@ class ApplicantsViewset(viewsets.ViewSet):
 class ApplicationsViewset(viewsets.ViewSet):
     permission_classes=[IsAuthenticated]
     def application_list(self,request,*args,**kwargs):
-        applications=JobApplication.objects.filter(applicant=request.user.id)        
+        applications=JobApplication.objects.filter(applicant=request.user.id).order_by('-date_applied')        
         if(applications):
             serializer=EmployeeApplicationsSerializer(applications, many=True)
             return Response (serializer.data, status=200)
@@ -101,7 +101,7 @@ class ApplicationsViewset(viewsets.ViewSet):
 class PostedJobsViewset(viewsets.ViewSet):
     permission_classes=[IsAuthenticated]
     def job_list(self, request,*args,**kwargs):
-        jobs=Jobs.objects.filter(job_poster=request.user)
+        jobs=Jobs.objects.filter(job_poster=request.user).order_by('-date_posted')
         if(jobs):        
             serializer=JobListSerializer(jobs, many=True)
             return Response(serializer.data, status=200)
@@ -153,7 +153,23 @@ class EeDeclineJobViewset(viewsets.ViewSet):
         application.ee_is_declined=not application.ee_is_declined
         application.save()
         return Response(application.ee_is_declined,status=200)
-        
+
+class JobDetailsViewset(viewsets.ViewSet):
+    permission_classes=[AllowAny]
+    def job_details(self,request,*args,**kwargs):
+        pk=self.kwargs.get('pk')
+        jobs=get_object_or_404(Jobs,pk=pk)
+        if(jobs):        
+            serializer=JobListSerializer(jobs)
+            return Response(serializer.data, status=200)
+        return Response({'error':'No Jobs Posted'}, status=404)
+
+
+
+
+
+
+
         
 
 

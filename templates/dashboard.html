@@ -2,6 +2,7 @@
 {%load static %}
 {% block content %}
 <input type ="hidden" id="user" value="{{user.pk}}">
+<input type ="hidden" id="status" value="{{user.is_employer}}">
 <br>
 <div class="container">
     <div class="row">
@@ -14,7 +15,7 @@
         </div>
         <div class="col-sm">
             <select id="cat" class="form-control me-2"  name="cat" >
-                <option value=""selected>All</option>
+                <option value=""selected>Job Category</option>
                 <option value="Computer">Computer</option>
                 <option value="Finance">Finance </option>
                 <option value="Entertainment">Entertainment</option>  
@@ -22,18 +23,20 @@
         </div>
         <div class="col-sm">
             <select class="form-control" id="sal_range" placeholder="Salary Range" name="sal_range">
-                <option value=""selected>Any</option>
+                <option value=""selected>Minimum Salary Offer</option>
                 <option value="10000">10000</option>
                 <option value="12000">12000</option>           
                 <option value="50000">50000 </option>
-                <option value="100000">10000</option>           
+                <option value="100000">100000</option>           
             </select>
         </div>
          <div class="col-sm-2">
-            <button id="search_btn" class="btn btn-outline-success">Search</button>
+            <button id="search_btn" class="btn btn-success">Search</button>
         </div>            
     </div>  
-    <div class="container">      
+    <br>
+    <div class="container">   
+        <div id="failed_div"></div>   
         <div class= "row" id="div_body">                
         </div>         
     </div>

@@ -2,17 +2,20 @@
 {% load static %}
 {% load rest_framework %}
 {% block content %}
+{% if user.is_employer is True %}
 <h1>Post a Job</h1>
+<div id="success_div"></div>
+<div id="failed_div"></div>
 <form id="post_jobForm"  enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     <input type="hidden" id="userID">
     <div class="form-group">
-        <label for="job_title">Job_title</label>
+        <label for="job_title">Job Title</label>
         <input type="text" class="form-control" id="job_title" placeholder="Enter Job Title">
     </div>
     <div class="form-group">
-        <label for="job_description">Job_Description</label>
-        <input type="text" class="form-control" id="job_description" placeholder="Job Description">
+        <label for="job_description">Job Description</label>
+        <textarea type="text" class="form-control" id="job_description" placeholder="Job Description" rows="6"></textarea>
     </div>
     <div class="form-group">
         <label for="location">Location</label>
@@ -24,22 +27,32 @@
             <option value="10000">10000</option>
             <option value="12000">12000</option>           
             <option value="50000" selected>50000 </option>
-            <option value="100000">10000</option>           
+            <option value="100000">100000</option>           
         </select>
     </div>
     <div class="form-group">
         <label for="category">Category</label>
-        <select id="category">
-            <option value="10">Computer</option>
+        <select  class="form-control" id="category">
+            <option value="Computer">Computer</option>
             <option value="Finance" selected>Finance </option>
             <option value="Entertainment">Entertainment</option>           
         </select>
     </div>
-    <button id ="post_job_btn" type=submit>Post</button>     
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file"  id="img">
+    </div>
+    <button class ="btn btn-success" id ="post_job_btn" type=submit>Post</button>     
 </form>
+{% else %}
+    <div class="p-5 text-center bg-light">
+        <h1 class="mb-3">Oops! You're not allowed to see this click on Find Jobs to find a job or create an employer account <a href="{%url 'Users:signup' %}">here</a>.</h1>
+    </div>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'post_job.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard.js' %}"></script>
 {% endblock %}
 

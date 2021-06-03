@@ -17,12 +17,24 @@ $(document).ready(function(){
           },      
           success: function(data){
             console.log(data);
-            alert('Profile Successfully Updated');
-            
+            html_render=""; 
+            html_render +=
+            "<div class='alert alert-success' role='alert'>"+
+              "Job Post Successful"+
+              "</div>";
+            $("#success_div").html(html_render).fadeIn('slow');
+            $("#success_div").delay(2000).fadeOut('slow');
               
           },
           error: function(e){
-              console.log(e);
+            console.log(e);
+            html_render=""; 
+            html_render +=  
+            "<div class='alert alert-danger'>"+
+              "Job Post Failed"+
+              "</div>";
+            $("#failed_div").html(html_render).fadeIn('slow');
+            $("#failed_div").delay(2000).fadeOut('slow');
           }       
         });
       });       

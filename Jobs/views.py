@@ -44,12 +44,17 @@ class JobListView(TemplateView):
 class EditJobView(TemplateView):
     template_name='jobs/editjob.html'
     def get(self, request, *awgs, **kwargs):
-         if request.user.is_authenticated:
-            pk = self.kwargs.get('pk')                  
-            jobs = get_object_or_404(Jobs, pk=pk)        
-            return render(request,self.template_name, {'jobs':jobs})
-         return redirect('Users:signup')
-
+        pk = self.kwargs.get('pk') 
+        jobs = get_object_or_404(Jobs, pk=pk)  
+        if request.user == jobs.job_poster:
+            if request.user.is_authenticated:
+                context={
+                    'jobs':jobs
+                }                           
+                return render(request,self.template_name,context)
+        else:
+            return redirect('Jobs:no_access')
+                      
 
 class ApplyJobView(TemplateView):
     template_name='jobs/apply.html'
@@ -72,10 +77,12 @@ class ViewApplicantsView(TemplateView):
         if request.user.is_authenticated: 
             pk = self.kwargs.get('pk')         
             jobs = get_object_or_404(Jobs, pk=pk)
+            user=get_object_or_404(CustomUser,pk=request.user.id)
             applicant = JobApplication.objects.filter(Job=jobs) 
             context={
                 'jobs':jobs,
                 'applicant':applicant,
+                'user':user,
             }        
             return render(request,'jobs/view_applicants.html',context)
         return redirect('Users:signup')
@@ -107,6 +114,18 @@ class EmployeeApplicationView(TemplateView):
             return render(request,'jobs/view_application.html',context)
         return redirect('Users:signup')
 
+class JobDetailsView(TemplateView):
+      def get(self,request,*args,**kwargs):
+            pk = self.kwargs.get('pk')
+            jobs = get_object_or_404(Jobs, pk=pk)
+            context={
+                'jobs':jobs,               
+            }
+            return render(request, 'jobs/job_details.html',context)
 
 
+class NoAccessView(TemplateView):
+    def get(self,request):
+        template_name='jobs/no_access.html'
+        return render(request, template_name)
        

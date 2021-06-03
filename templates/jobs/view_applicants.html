@@ -2,25 +2,28 @@
 {% load static %}
 {%load rest_framework %}
 {% block content %}
+{% if user.is_employer is True %}
 <input type="hidden" id="job_id" value="{{jobs.pk}}">
-
-
-
-
 <div class="text-center">
-<h1>Applicant List</h1>
+<h1 id="applicant_head"> Applicant List</h1>
 </div>
 <div class="container">  
     {% csrf_token %} 
     <table class= "table">
       
-        <thead>
-            <tr>                  
+        <thead  class="table-success">
+            <tr> 
+                           
             <th scope='col'>Email</th>
             <th scope='col'>First Name</th>
             <th scope='col'>Last Name</th>
             <th scope='col'>Cover Letter</th>
             <th scope='col'>Resume</th>
+            <th scope='col'> </th>
+            <th scope='col'> </th>
+            <th scope='col'> </th>
+
+            
             </tr>
         </thead>
         <tbody id="body_table">
@@ -29,7 +32,13 @@
                 
     </table>         
 </div>
+{%else%}
+<div class="text-center">
+<h1>Oops! You're not allowed to see this click on Find Jobs to find a job.</h1>
+</div>
+{% endif %}
 {% endblock %}
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'view_applicants.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard.js' %}"></script>
 {% endblock %}

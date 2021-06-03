@@ -36,7 +36,9 @@ class EditProfileView(TemplateView):
     def get(self,request,*args, **kwargs):
         pk=self.kwargs.get('pk')
         user=get_object_or_404(CustomUser, pk=pk)
-        return render(request, 'users/edit_profile.html', {'user':user})
+        if request.user.id == user.id:
+            return render(request, 'users/edit_profile.html', {'user':user})
+        return redirect('Jobs:no_access')
 
 
 class ProfileDetailsView(TemplateView):
@@ -56,20 +58,6 @@ class ProfileDetailsView(TemplateView):
 
 
 
-
-# class UserViewSet(viewsets.ViewSet):
-#     def get(self, request):
-#         queryset = CustomUser.objects.all()
-#         serializer = UserSerializer(queryset, many=True)
-#         return Response(serializer.data)
-
-#     def post(self,request, pk=None):
-#         queryset= CustomUser.objects.all()
-#         user = get_object_or_404(queryset, pk=pk)
-#         serializer=UserSerializer(user)
-#         return Response(serializer.data)
-
-            
 
           
         

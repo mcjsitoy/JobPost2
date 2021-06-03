@@ -2,19 +2,23 @@
 {% load static %}
 
 {% block content %}
-
+<div id ="failed_div"></div>
 <div class="container1">
     <div class="center">
         <form id =loginForm novalidate>
             {% csrf_token %}
-        <div class="row-align-items-center mb-2 mt-2">                
+        <div class="row-align-items-center mb-2 mt-2">    
+            <div class="form-group">  
                 <label class ="text-center" for="email">Email address</label>              
-                <input type="email"   id="email" placeholder="Enter email">               
+                <input class="form-control" stype="email"   id="email" placeholder="Enter email">  
+            </div>      
+            <div class="form-group">       
                 <label class ="text-center" for="passowrd">Password</label>                
-                <input type="password" id="password" placeholder="Enter password">                      
+                <input class="form-control" type="password" id="password" placeholder="Enter password">    
+            </div>                     
         </div>
         <div class = "text-center">       
-            <button id ="login_btn" type=submit class="btn btn-success"> Login</button>  
+            <button id ="login_btn" type=submit class="btn btn-success">Login</button>  
         </div>             
         </form>
     </div>

@@ -11,6 +11,7 @@ class Jobs(models.Model):
     date_posted=models.DateField(auto_now_add=True)
     location=models.CharField(max_length=250, null=True, blank=True)
     salary_range=models.CharField(max_length=250)
+    img=models.ImageField(upload_to="static/image/", default="static/image/no_image.png")
    
     
     JOB_CATEGORIES=[
@@ -25,6 +26,8 @@ class Jobs(models.Model):
         )
     def __str__(self):
         return self.job_title
+
+        
     
 
 class JobApplication(models.Model):

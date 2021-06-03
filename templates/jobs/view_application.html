@@ -2,21 +2,26 @@
 {% load static %}
 {%load rest_framework %}
 {% block content %}
+{% if user.is_employee is True %}
 <input type="hidden" id="user_id"  value="{{user.pk}}">
 
 
 
 
 <div class="text-center">
-<h1>Jobs you applied to</h1>
+<h1 id="application_head">Jobs you applied to</h1>
 </div>
 <div class="container">  
     {% csrf_token %} 
     <table class= "table">      
-        <thead>
+        <thead class="table-success">
             <tr>                  
             <th scope='col'>Job</th>
             <th scope='col'>Email</th>
+            <th scope='col'>Date Applied</th>
+            <th scope='col'> </th>
+            <th scope='col'> </th>
+            <th scope='col'> </th>
             </tr>
         </thead>
         <tbody id="body_table">
@@ -25,7 +30,15 @@
                 
     </table>         
 </div>
+{% else %}
+<div class="text-center">
+    <h1>Oops! You're an employer only employee accounts can access this page <br>
+        Sign up for an Employee Account <a href="{%url 'Users:signup' %}">here</a>.</h1>   
+</div>
+{% endif %}
+
 {% endblock %}
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'view_applications.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard.js' %}"></script>
 {% endblock %}

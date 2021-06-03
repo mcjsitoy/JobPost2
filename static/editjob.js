@@ -20,11 +20,24 @@ $(document).ready(function(){
           },      
           success: function(data){
             console.log(data)
-            alert('Job Updated Succesfully')
+            html_render=""; 
+            html_render +=              
+            "<div class='alert alert-success'>"+
+            "Update Successful"+
+            "</div>";
+            $("#success_div").html(html_render).fadeIn('slow');
+            $("#success_div").delay(2000).fadeOut('slow');
               
           },
           error: function(e){
-              console.log(e);
+            console.log(e);
+            html_render=""; 
+            html_render +=              
+            "<div class='alert alert-danger'>"+
+            "Update Failed"+
+            "</div>";
+            $("#failed_div").html(html_render).fadeIn('slow');
+            $("#failed_div").delay(2000).fadeOut('slow');
           }       
         });
       });       

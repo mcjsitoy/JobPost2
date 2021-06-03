@@ -8,6 +8,8 @@
 {% block content %}
 
 <h1>signup</h1>
+<div id="success_div"></div>
+<div id="failed_div"></div>
 <form id="registerForm" novalidate>
     {% csrf_token %}
     <div class="form-group">
@@ -39,7 +41,7 @@
         <label for="user_type">Employee</label>
         <input type="checkbox" id="employee_check" name="employee_check">
     </div>
-    <button id ="register_btn" type=submit> Save</button>        
+    <button class="btn btn-success" id ="register_btn" type=submit> Save</button>        
 </form>
 {% endblock %}
 

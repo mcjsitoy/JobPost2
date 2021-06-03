@@ -18,16 +18,30 @@ $(document).ready(function(){
             processData: false,
             contentType: false,                   
             url: base_url + '/jobs/api/apply_job/' +jobpk,
-            beforeSend: function( xhr ) {
+            beforeSend: function(xhr) {
               xhr.setRequestHeader('X-CSRFToken', $('input[name=csrfmiddlewaretoken]').val());
             }, 
             data: formData,            
             success: function(data){
               console.log(data)
-              alert('Application Successful');
+              html_render=""; 
+              html_render +=              
+              "<div class='alert alert-success' role='alert'>"+
+              "Application Successful"+
+              "</div>";
+              $("#success_div").html(html_render).fadeIn('slow');
+              $("#success_div").delay(2000).fadeOut('slow');
+             
             },
             error: function(e){
                 console.log(e);
+                html_render=""; 
+                html_render +=              
+                "<div class='alert alert-danger'>"+
+                "Application Failed"+
+                "</div>";
+                $("#failed_div").html(html_render).fadeIn('slow');
+                $("#failed_div").delay(2000).fadeOut('slow');
             }
           });
       });       
